@@ -25,7 +25,7 @@ class Connect < Sinatra::Base
       method: 'GET'
     )
     response = Twilio::TwiML::Response.new do |r|
-      r.Play 'https://s3.amazonaws.com/connect-cfa/initial_call_voice_file_v2.mp3'
+      r.Play 'https://s3-us-west-1.amazonaws.com/connect311/caller+intro.wav'
       r.Hangup
     end
     response.text
@@ -36,7 +36,7 @@ class Connect < Sinatra::Base
     response = Twilio::TwiML::Response.new do |r|
       r.Gather(numDigits: 1, action: "/connections/#{phone_number_without_spaces}/connect", method: 'POST') do |g|
         g.Pause(length: 3)
-        g.Play("https://s3-us-west-1.amazonaws.com/cfa-health-connect/leo.wav", loop: '0')
+        g.Play("https://s3-us-west-1.amazonaws.com/connect311/311+intro.wav", loop: '0')
       end
     end
     response.text
@@ -68,7 +68,7 @@ class Connect < Sinatra::Base
   get '/end' do
     response = Twilio::TwiML::Response.new do |r|
       r.Gather(numDigits: 1, action: "/hangup-report/#{params['caller_number']}", method: 'POST') do |g|
-        g.Play("https://s3.amazonaws.com/connect-cfa/did_they_hang_up.mp3")
+        g.Play("https://s3-us-west-1.amazonaws.com/connect311/caller+followup.wav")
       end
     end
     response.text
